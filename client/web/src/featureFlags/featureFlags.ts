@@ -29,6 +29,7 @@ export type FeatureFlagName =
     | 'own-promote'
     | 'own-analytics'
     | 'enable-simple-search'
+    | 'visual-settings-editor'
 
 interface OrgFlagOverride {
     orgID: string
