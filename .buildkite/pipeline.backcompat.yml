@@ -1,4 +1,4 @@
 steps:
-  - label: :bazel: backcompat tests
+  - label: ':bazel: backcompat tests'
     commands:
     - ./dev/ci/bazel-backcompat.sh
