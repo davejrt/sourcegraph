@@ -40,10 +40,10 @@ type CoreTestOperationsOptions struct {
 //
 // If the conditions for the addition of an operation cannot be expressed using the above
 // arguments, please add it to the switch case within `GeneratePipeline` instead.
-func CoreTestOperations(diff changed.Diff, opts CoreTestOperationsOptions) *operations.Set {
+func CoreTestOperations(buildOpts bk.BuildOptions, diff changed.Diff, opts CoreTestOperationsOptions) *operations.Set {
 	// Base set
 	ops := operations.NewSet()
-	ops.Append(BazelOperations(opts.IsMainBranch)...)
+	ops.Append(BazelOperations(buildOpts, opts.IsMainBranch)...)
 
 	// Simple, fast-ish linter checks
 	linterOps := operations.NewNamedSet("Linters and static analysis")

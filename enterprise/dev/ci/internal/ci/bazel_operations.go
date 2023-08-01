@@ -15,23 +15,15 @@ import (
 	"github.com/sourcegraph/sourcegraph/lib/errors"
 )
 
-func BazelOperations(isMain bool) []operations.Operation {
+func BazelOperations(buildOpts bk.BuildOptions, isMain bool) []operations.Operation {
 	ops := []operations.Operation{}
-	ops = append(ops, bazelPrechecks())
+	ops = append(ops, bazelConfigure())
 	if isMain {
 		ops = append(ops, bazelTest("//...", "//client/web:test", "//testing:codeintel_integration_test", "//testing:grpc_backend_integration_test"))
 	} else {
 		ops = append(ops, bazelTest("//...", "//client/web:test"))
 	}
-	ops = append(ops, bazelBackCompatTest(
-		"@sourcegraph_back_compat//cmd/...",
-		"@sourcegraph_back_compat//lib/...",
-		"@sourcegraph_back_compat//internal/...",
-		"@sourcegraph_back_compat//enterprise/cmd/...",
-		"@sourcegraph_back_compat//enterprise/internal/...",
-		"-@sourcegraph_back_compat//cmd/migrator/...",
-		"-@sourcegraph_back_compat//enterprise/cmd/migrator/...",
-	))
+	triggerBackCompatTest(buildOptions)
 	return ops
 }
 
@@ -105,6 +97,7 @@ func bazelStampedCmd(args ...string) string {
 // bazelAnalysisPhase only runs the analasys phase, ensure that the buildfiles
 // are correct, but do not actually build anything.
 func bazelAnalysisPhase() func(*bk.Pipeline) {
+	// We run :gazelle since 'configure' causes issues on CI, where it doesn't have the go path available
 	cmd := bazelCmd(
 		"build",
 		"--nobuild", // this is the key flag to enable this.
@@ -123,13 +116,12 @@ func bazelAnalysisPhase() func(*bk.Pipeline) {
 		)
 	}
 }
-func bazelPrechecks() func(*bk.Pipeline) {
+func bazelConfigure() func(*bk.Pipeline) {
 	// We run :gazelle since 'configure' causes issues on CI, where it doesn't have the go path available
 	cmds := []bk.StepOpt{
-		bk.Key("bazel-prechecks"),
-		bk.SoftFail(100),
+		bk.Key("bazel-configure"),
 		bk.Agent("queue", "bazel"),
-		bk.AnnotatedCmd("dev/ci/bazel-prechecks.sh", bk.AnnotatedCmdOpts{
+		bk.AnnotatedCmd("dev/ci/bazel-configure.sh", bk.AnnotatedCmdOpts{
 			Annotations: &bk.AnnotationOpts{
 				Type:         bk.AnnotationTypeWarning,
 				IncludeNames: false,
@@ -138,7 +130,7 @@ func bazelPrechecks() func(*bk.Pipeline) {
 	}
 
 	return func(pipeline *bk.Pipeline) {
-		pipeline.AddStep(":bazel: Perform bazel prechecks",
+		pipeline.AddStep(":bazel: Ensure buildfiles are up to date",
 			cmds...,
 		)
 	}
@@ -151,7 +143,7 @@ func bazelAnnouncef(format string, args ...any) bk.StepOpt {
 
 func bazelTest(targets ...string) func(*bk.Pipeline) {
 	cmds := []bk.StepOpt{
-		bk.DependsOn("bazel-prechecks"),
+		bk.DependsOn("bazel-configure"),
 		bk.Agent("queue", "bazel"),
 		bk.Key("bazel-tests"),
 		bk.ArtifactPaths("./bazel-testlogs/enterprise/cmd/embeddings/shared/shared_test/*.log", "./command.profile.gz"),
@@ -183,25 +175,12 @@ func bazelTest(targets ...string) func(*bk.Pipeline) {
 	}
 }
 
-func bazelBackCompatTest(targets ...string) func(*bk.Pipeline) {
-	cmds := []bk.StepOpt{
-		bk.DependsOn("bazel-prechecks"),
-		bk.Agent("queue", "bazel"),
-
-		// Generate a patch that backports the migration from the new code into the old one.
-		// Ignore space is because of https://github.com/bazelbuild/bazel/issues/17376
-		bk.Cmd("git diff --ignore-space-at-eol v5.1.0..HEAD -- migrations/ > dev/backcompat/patches/back_compat_migrations.patch"),
-	}
-
-	bazelCmd := bazelCmd(fmt.Sprintf("test --test_tag_filters=go -- %s ", strings.Join(targets, " ")))
-	cmds = append(
-		cmds,
-		bk.Cmd(bazelCmd),
-	)
-
+func triggerBackCompatTest(buildOptions bk.BuildOptions) func(*bk.Pipeline) {
 	return func(pipeline *bk.Pipeline) {
-		pipeline.AddStep(":bazel: BackCompat Tests",
-			cmds...,
+		pipeline.AddTrigger(":bazel::snail: async BackCompat Tests", "sourcegraph-backcompat",
+			bk.DependsOn("bazel-configure"),
+			bk.Agent("queue", "bazel"),
+			bk.Build(buildOptions),
 		)
 	}
 }
