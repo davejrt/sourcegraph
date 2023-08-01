@@ -23,8 +23,7 @@ func BazelOperations(buildOpts bk.BuildOptions, isMain bool) []operations.Operat
 	} else {
 		ops = append(ops, bazelTest("//...", "//client/web:test"))
 	}
-	triggerBackCompatTest(buildOpts)
-	return ops
+	return append(ops, triggerBackCompatTest(buildOpts))
 }
 
 func bazelCmd(args ...string) string {
