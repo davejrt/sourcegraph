@@ -23,7 +23,7 @@ func BazelOperations(buildOpts bk.BuildOptions, isMain bool) []operations.Operat
 	} else {
 		ops = append(ops, bazelTest("//...", "//client/web:test"))
 	}
-	triggerBackCompatTest(buildOptions)
+	triggerBackCompatTest(buildOpts)
 	return ops
 }
 
@@ -175,12 +175,12 @@ func bazelTest(targets ...string) func(*bk.Pipeline) {
 	}
 }
 
-func triggerBackCompatTest(buildOptions bk.BuildOptions) func(*bk.Pipeline) {
+func triggerBackCompatTest(buildOpts bk.BuildOptions) func(*bk.Pipeline) {
 	return func(pipeline *bk.Pipeline) {
 		pipeline.AddTrigger(":bazel::snail: async BackCompat Tests", "sourcegraph-backcompat",
 			bk.DependsOn("bazel-configure"),
 			bk.Agent("queue", "bazel"),
-			bk.Build(buildOptions),
+			bk.Build(buildOpts),
 		)
 	}
 }
