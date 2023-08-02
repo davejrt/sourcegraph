@@ -176,7 +176,7 @@ func bazelTest(targets ...string) func(*bk.Pipeline) {
 
 func triggerBackCompatTest(buildOpts bk.BuildOptions) func(*bk.Pipeline) {
 	return func(pipeline *bk.Pipeline) {
-		pipeline.AddTrigger(":bazel::snail: async BackCompat Tests", "sourcegraph-backcompat",
+		pipeline.AddTrigger(":bazel::snail: Async BackCompat Tests", "sourcegraph-backcompat",
 			bk.DependsOn("bazel-configure"),
 			bk.Build(buildOpts),
 		)

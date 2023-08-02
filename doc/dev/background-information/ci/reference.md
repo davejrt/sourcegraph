@@ -17,14 +17,14 @@ The default run type.
 - Pipeline for `Go` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Client` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
   - **Security Scanning**: Sonarcloud Scan
@@ -33,90 +33,90 @@ The default run type.
 - Pipeline for `GraphQL` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `DatabaseSchema` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Docs` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Dockerfiles` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `ExecutorVMImage` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `ExecutorDockerRegistryMirror` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `CIScripts` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Terraform` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `SVG` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Shell` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `DockerImages` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `WolfiPackages` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `WolfiBaseImages` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Security Scanning**: Sonarcloud Scan
 
 - Pipeline for `Protobuf` changes:
   - Perform bazel prechecks
   - Tests
-  - BackCompat Tests
+  - Async BackCompat Tests
   - **Linters and static analysis**: Run sg lint
   - **Security Scanning**: Sonarcloud Scan
 
@@ -147,7 +147,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
@@ -209,7 +209,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images, Build executor image, Build executor binary, Build docker registry mirror image
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
@@ -227,7 +227,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images, Build executor image, Build executor binary, Build docker registry mirror image
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
@@ -268,7 +268,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images, Build executor image, Build executor binary
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
@@ -291,7 +291,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images, Build executor image, Build executor binary
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
@@ -367,7 +367,7 @@ Base pipeline (more steps might be included based on branch changes):
 - **Image builds**: Build Docker images
 - Perform bazel prechecks
 - Tests
-- BackCompat Tests
+- Async BackCompat Tests
 - **Linters and static analysis**: Run sg lint
 - **Client checks**: Upload Storybook to Chromatic, Enterprise build, Build (client/jetbrains), Tests for VS Code extension, Stylelint (all)
 - **Security Scanning**: Sonarcloud Scan
