@@ -15,7 +15,7 @@ import (
 	"github.com/sourcegraph/sourcegraph/lib/errors"
 )
 
-func BazelOperations(isMain bool) []operations.Operation {
+func BazelOperations(buildOpts bk.BuildOptions, isMain bool) []operations.Operation {
 	ops := []operations.Operation{}
 	ops = append(ops, bazelPrechecks())
 	if isMain {
@@ -23,15 +23,8 @@ func BazelOperations(isMain bool) []operations.Operation {
 	} else {
 		ops = append(ops, bazelTest("//...", "//client/web:test"))
 	}
-	ops = append(ops, bazelBackCompatTest(
-		"@sourcegraph_back_compat//cmd/...",
-		"@sourcegraph_back_compat//lib/...",
-		"@sourcegraph_back_compat//internal/...",
-		"@sourcegraph_back_compat//enterprise/cmd/...",
-		"@sourcegraph_back_compat//enterprise/internal/...",
-		"-@sourcegraph_back_compat//cmd/migrator/...",
-		"-@sourcegraph_back_compat//enterprise/cmd/migrator/...",
-	))
+
+	ops = append(ops, triggerBackCompatTest(buildOpts))
 	return ops
 }
 
