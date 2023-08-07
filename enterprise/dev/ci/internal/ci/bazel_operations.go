@@ -180,7 +180,6 @@ func triggerBackCompatTest(buildOpts bk.BuildOptions) func(*bk.Pipeline) {
 	backCompatOpts := bk.BuildOptions{
 		Message: fmt.Sprintf("Back Compatibility tests for: %s", buildOpts.Message),
 		Commit:  "c691c3f50c0a288fbc8e796327417136459fa35f",
-		Branch:  "main",
 		MetaData: map[string]any{
 			"target_commit": buildOpts.Commit,
 		},
