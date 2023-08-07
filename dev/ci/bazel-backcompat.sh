@@ -7,7 +7,8 @@ if [[ "${CI:-false}" == "true" ]]; then
   bazelrcs="${bazelrcs} --bazelrc=.aspect/bazelrc/ci.bazelrc --bazelrc=.aspect/bazelrc/ci.sourcegraph.bazelrc"
 fi
 
-git diff
+echo "--- debug"
+cat .bazelrc
 
 echo "--- :git::rewind: checkout v5.1.0"
 git checkout --force "v5.1.0"
