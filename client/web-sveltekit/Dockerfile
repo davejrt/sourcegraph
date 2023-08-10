@@ -1,5 +1,5 @@
 # This image creates a standalone web server for demoing the prototype
-FROM node:16
+FROM node:16@sha256:1034488004f4631b36094b2add58fd45114b543650b0d42ce9bbd938da4ede3e
 
 ARG PROJECT_ROOT="."
 
